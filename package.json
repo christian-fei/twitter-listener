@@ -1,0 +1,10 @@
+{
+  "scripts":{
+    "test": "jasmine-node . --autotest",
+    "start": "nodemon -q twitter-listener.js"
+  },
+  "dependencies": {
+    "colors": "^0.6.2",
+    "jasmine-node": "^1.14.2"
+  }
+}
