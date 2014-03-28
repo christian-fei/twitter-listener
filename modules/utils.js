@@ -106,11 +106,42 @@ function createOauthSignature(key, signatureBaseString){
   finally
 */
 
-function createAuthString(params){
+function createAuthHeader(params){
   var authString = 'OAuth ';
   authString += concatProperties(params, ", ", true);
 
   return authString;
+}
+
+function getAuthHeader(oauth_consumer_key, oauth_token, oauth_token_secret, method, url, query){
+  var nonce = rstr(42),
+      timestamp = parseInt(Date.now()/1000);
+
+  var oauth = {
+    oauth_consumer_key: oauth_consumer_key,
+    oauth_nonce: nonce,
+    oauth_signature_method: "HMAC-SHA1",
+    oauth_timestamp: timestamp,
+    oauth_token: oauth_token,
+    oauth_version: "1.0"
+  }
+
+  //adding query to oauth
+  for(var key in query){var value = query[key];oauth[key] = value;}
+
+  var mySignature = concatProperties( oauth );
+  var mySignatureBaseString = concatPropertiesBaseString(method, url, mySignature);
+  var mySigningKey = createSigningKey( oauth_consumer_key, oauth_token_secret );
+  var myOauthSignature = createOauthSignature(mySigningKey,mySignatureBaseString);
+
+  oauth.oauth_signature = myOauthSignature;
+
+  //deleting query
+  for(var key in query){var value = query[key];delete oauth[key];}
+
+  var myAuthString = createAuthHeader(oauth, ', ', true);
+
+  return myAuthString;
 }
 
 
@@ -125,5 +156,6 @@ module.exports = {
   concatPropertiesBaseString: concatPropertiesBaseString,
   createSigningKey: createSigningKey,
   createOauthSignature: createOauthSignature,
-  createAuthString: createAuthString,
+  createAuthHeader: createAuthHeader,
+  getAuthHeader: getAuthHeader,
 };

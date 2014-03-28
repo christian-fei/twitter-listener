@@ -26,11 +26,12 @@ var mySignatureBaseString = utils.concatPropertiesBaseString('post','https://api
 var mySignatureBaseStringWithQueryString = utils.concatPropertiesBaseString('post','https://api.twitter.com/1/statuses/update.json?search=twitter', mySignature);
 var mySigningKey = utils.createSigningKey( consumer_secret, oauth_token_secret );
 var myOauthSignature = utils.createOauthSignature(mySigningKey,mySignatureBaseString);
+var myAuthHeader = utils.getAuthHeader(signatureParams.oauth_consumer_key, signatureParams.oauth_token, oauth_token_secret, 'post', 'https://api.twitter.com/1/statuses/update.json', {include_entities:true, "status": "Hello Ladies + Gentlemen, a signed OAuth request!"});
 
 signatureParams.oauth_signature = myOauthSignature;
 delete signatureParams.include_entities;
 delete signatureParams.status;
-var myAuthString = utils.createAuthString(signatureParams, ', ', true);
+var myAuthString = utils.createAuthHeader(signatureParams, ', ', true);
 
 
 var validSignature = "include_entities=true&oauth_consumer_key=xvz1evFS4wEEPTGEFPHBog&oauth_nonce=kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1318622958&oauth_token=370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb&oauth_version=1.0&status=Hello%20Ladies%20%2B%20Gentlemen%2C%20a%20signed%20OAuth%20request%21";
