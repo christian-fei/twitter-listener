@@ -44,6 +44,7 @@ function arrayifyObject(obj){
   return arr;
 }
 
+
 /*
   the sorted output of the above function
 */
@@ -55,20 +56,35 @@ function sortArrayfiedObject(arr){
 }
 
 /*
+  i am sorry
+*/
+function arraySortify(obj){
+  return sortArrayfiedObject(arrayifyObject(obj));
+}
+
+/*
   concatenated key value pairs with an equals sign and &
 */
-function createSignature(properties){
+function concatProperties(properties, conc, quote){
+  if( !conc ){
+    conc = "&";
+  }
+  if( quote ){
+    quote = '"';
+  }else{
+    quote = '';
+  }
   var arr = sortArrayfiedObject(arrayifyObject(properties));
   var c = "";
   arr.forEach(function(a){
-    c+= a[0] +'='+ a[1] +'&';
+    c+= a[0] +'='+ quote +  a[1] + quote + conc;
   });
-  c = c.replace(/\&$/g,'');
+  c = c.replace(new RegExp(conc+'$'),'');
   return c;
 }
 
 
-function createSignatureBaseString(method, url, signature){
+function concatPropertiesBaseString(method, url, signature){
   url = removeQueryString(url);
 
   var sbs = method.toUpperCase() + "&";
@@ -86,6 +102,18 @@ function createOauthSignature(key, signatureBaseString){
 }
 
 
+/*
+  finally
+*/
+
+function createAuthString(params){
+  var authString = 'OAuth ';
+  authString += concatProperties(params, ", ", true);
+
+  return authString;
+}
+
+
 module.exports = {
   encode: encode,
   rconf: rconf,
@@ -93,8 +121,9 @@ module.exports = {
   removeQueryString: removeQueryString,
   arrayifyObject: arrayifyObject,
   sortArrayfiedObject: sortArrayfiedObject,
-  createSignature: createSignature,
-  createSignatureBaseString: createSignatureBaseString,
+  concatProperties: concatProperties,
+  concatPropertiesBaseString: concatPropertiesBaseString,
   createSigningKey: createSigningKey,
   createOauthSignature: createOauthSignature,
+  createAuthString: createAuthString,
 };
