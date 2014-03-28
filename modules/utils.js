@@ -25,6 +25,10 @@ function rconf( file ){
   }
 }
 
+function removeQueryString(url){
+  return url.split("?")[0].split("#")[0];
+}
+
 /*
   return an array in the following format
 
@@ -62,7 +66,10 @@ function createSignature(properties){
   return c;
 }
 
+
 function createSignatureBaseString(method, url, signature){
+  url = removeQueryString(url);
+
   var sbs = method.toUpperCase() + "&";
   sbs += encode( url ) + "&";
   sbs += encode( signature );
@@ -74,6 +81,7 @@ module.exports = {
   encode: encode,
   rconf: rconf,
   rstr: rstr,
+  removeQueryString: removeQueryString,
   arrayifyObject: arrayifyObject,
   sortArrayfiedObject: sortArrayfiedObject,
   createSignature: createSignature,

@@ -27,6 +27,8 @@ var mySignature = utils.createSignature( signatureParams );
 
 var mySignatureBaseString = utils.createSignatureBaseString('post','https://api.twitter.com/1/statuses/update.json', mySignature);
 
+var mySignatureBaseStringWithQueryString = utils.createSignatureBaseString('post','https://api.twitter.com/1/statuses/update.json?search=twitter', mySignature);
+
 
 
 
@@ -41,6 +43,10 @@ describe('utils', function(){
   //i know, i know
   it('should read the config file', function(){
     expect( utils.rconf('config.json') ).toEqual( jasmine.any(Object) )
+  })
+
+  it('should remove the query string', function(){
+    expect( utils.removeQueryString('http://google.com?q=test') ).toEqual('http://google.com');
   })
 
   xit('should arrayify an object', function(){
@@ -85,6 +91,9 @@ describe('utils', function(){
 
   it('should create a valid signature base string', function(){
     expect( mySignatureBaseString ).toEqual( validSignatureBaseString );
+  })
+  it('should create a valid signature base string (with query string now)', function(){
+    expect( mySignatureBaseStringWithQueryString ).toEqual( validSignatureBaseString );
   })
 
 })
