@@ -1,4 +1,5 @@
-var fs = require("fs");
+var fs = require("fs"),
+    crypto = require("crypto")
 
 encode = function( str ) {
   return encodeURIComponent( str )
@@ -80,6 +81,10 @@ function createSigningKey(consumer_secret,oauth_token_secret){
   return encode(consumer_secret) + "&" + encode(oauth_token_secret);
 }
 
+function createOauthSignature(key, signatureBaseString){
+  return crypto.createHmac("sha1", key).update(signatureBaseString).digest("base64")
+}
+
 
 module.exports = {
   encode: encode,
@@ -91,4 +96,5 @@ module.exports = {
   createSignature: createSignature,
   createSignatureBaseString: createSignatureBaseString,
   createSigningKey: createSigningKey,
+  createOauthSignature: createOauthSignature,
 };
