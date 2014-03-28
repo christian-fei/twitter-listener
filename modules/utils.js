@@ -56,8 +56,10 @@ function concatProperties(properties){
   var arr = sortArrayfiedObject(arrayifyObject(properties));
   var c = "";
   arr.forEach(function(a){
-    console.log( a );
+    c+= a[0] +'='+ a[1] +'&';
   });
+  c = c.replace(/\&$/g,'');
+  return c;
 }
 
 /*
@@ -66,7 +68,6 @@ function concatProperties(properties){
 function createSignature(opt){
   var arr = arrayifyObject(opt);
 
-  console.log( arr );
 }
 
 

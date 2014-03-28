@@ -60,8 +60,9 @@ describe('utils', function(){
       "oauth_version": "1.0",
     };
 
-    utils.concatProperties( params );
+    var concat = utils.concatProperties( params );
 
+    console.log( concat );
   })
 
 })
