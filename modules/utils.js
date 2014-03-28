@@ -76,6 +76,10 @@ function createSignatureBaseString(method, url, signature){
   return sbs;
 }
 
+function createSigningKey(consumer_secret,oauth_token_secret){
+  return encode(consumer_secret) + "&" + encode(oauth_token_secret);
+}
+
 
 module.exports = {
   encode: encode,
@@ -86,4 +90,5 @@ module.exports = {
   sortArrayfiedObject: sortArrayfiedObject,
   createSignature: createSignature,
   createSignatureBaseString: createSignatureBaseString,
+  createSigningKey: createSigningKey,
 };
