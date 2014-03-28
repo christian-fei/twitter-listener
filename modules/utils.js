@@ -26,7 +26,7 @@ function rconf( file ){
 }
 
 /*
-  return an array (sorted) in the following format
+  return an array in the following format
 
   [[key,value],[key,value]]
 */
@@ -34,20 +34,39 @@ function arrayifyObject(obj){
   var arr = [];
   for(var key in obj){
     var value = obj[key];
-    arr.push([key,value]);
+    arr.push([encode(key),encode(value)]);
   }
+  return arr;
+}
 
-  arr.sort(function(a,b){
+/*
+  the sorted output of the above function
+*/
+function sortArrayfiedObject(arr){
+  var ret = arr.sort(function(a,b){
     return a[0] > b[0];
   });
-  return arr;
+  return ret;
+}
+
+/*
+  concatenated key value pairs with an equals sign and &
+*/
+function concatProperties(properties){
+  var arr = sortArrayfiedObject(arrayifyObject(properties));
+  var c = "";
+  arr.forEach(function(a){
+    console.log( a );
+  });
 }
 
 /*
   twitter fucking shit oauth helpers
 */
 function createSignature(opt){
+  var arr = arrayifyObject(opt);
 
+  console.log( arr );
 }
 
 
@@ -57,4 +76,6 @@ module.exports = {
   rconf: rconf,
   rstr: rstr,
   arrayifyObject: arrayifyObject,
+  sortArrayfiedObject: sortArrayfiedObject,
+  concatProperties: concatProperties,
 };
