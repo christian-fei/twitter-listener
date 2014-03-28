@@ -52,7 +52,7 @@ function sortArrayfiedObject(arr){
 /*
   concatenated key value pairs with an equals sign and &
 */
-function concatProperties(properties){
+function createSignature(properties){
   var arr = sortArrayfiedObject(arrayifyObject(properties));
   var c = "";
   arr.forEach(function(a){
@@ -62,14 +62,12 @@ function concatProperties(properties){
   return c;
 }
 
-/*
-  twitter fucking shit oauth helpers
-*/
-function createSignature(opt){
-  var arr = arrayifyObject(opt);
-
+function createSignatureBaseString(method, url, signature){
+  var sbs = method.toUpperCase() + "&";
+  sbs += encode( url ) + "&";
+  sbs += encode( signature );
+  return sbs;
 }
-
 
 
 module.exports = {
@@ -78,5 +76,6 @@ module.exports = {
   rstr: rstr,
   arrayifyObject: arrayifyObject,
   sortArrayfiedObject: sortArrayfiedObject,
-  concatProperties: concatProperties,
+  createSignature: createSignature,
+  createSignatureBaseString: createSignatureBaseString,
 };
