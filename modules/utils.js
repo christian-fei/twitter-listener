@@ -11,7 +11,7 @@ encode = function( str ) {
 }
 
 rstr = function( m ){
-  var m = m || 9; s = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var m = m || 9; s = '', r = 'abcdefghijklmnopqrstuvwxyz0123456789';
   for (var i=0; i < m; i++) { s += r.charAt(Math.floor(Math.random()*r.length)); }
   return s;
 };
@@ -102,6 +102,11 @@ function createOauthSignature(key, signatureBaseString){
 }
 
 
+function getBasicAuthHeader(consumer_key,consumer_secret){
+  var b = "Basic " + (new Buffer( consumer_key + ":" + consumer_secret ).toString('base64'));
+  return b;
+}
+
 /*
   finally
 */
@@ -114,7 +119,7 @@ function createAuthHeader(params){
 }
 
 function getAuthHeader(oauth_consumer_key, oauth_token, oauth_token_secret, method, url, query){
-  var nonce = rstr(42),
+  var nonce = rstr(32),
       timestamp = parseInt(Date.now()/1000);
 
   var oauth = {
@@ -157,5 +162,6 @@ module.exports = {
   createSigningKey: createSigningKey,
   createOauthSignature: createOauthSignature,
   createAuthHeader: createAuthHeader,
+  getBasicAuthHeader: getBasicAuthHeader,
   getAuthHeader: getAuthHeader,
 };
