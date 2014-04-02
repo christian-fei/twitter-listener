@@ -9,21 +9,27 @@ console.log( ('\n'+ Array(process.stdout.columns).join('=')  +'\n').rainbow.bold
 /* config */
 var config = utils.rconf('config.json');
 
-var tweetStream = request.post({
-  url: config.twitter.api.stream,
-  oauth: config.oauth,
-  form:{
-    "track":"twitter"
-    //locations: "-74,40,-73,41"
-  }
-})
+var tweetStream = null;
 
+function stream(opt){
+  tweetStream = request.post({
+    url: config.twitter.api.stream,
+    oauth: config.oauth,
+    form: opt
+  })
+  return tweetStream;
+}
+
+module.exports = {
+  stream: stream
+}
+/*
 tweetStream
   .pipe(process.stdout)
   .on('reconnect',function(){ console.log('stream is trying to reconnect')})
   .on('error',function(){ console.log('stream errored')})
   .on('end',function(){ console.log('stream ended')})
-
+*/
 
 
 
@@ -63,9 +69,9 @@ var twAuthHeader = 'OAuth oauth_consumer_key="XQaBf74D5UGQ4j9rX20SXw", oauth_non
 
 var basicAuthHeader = utils.getBasicAuthHeader(config.oauth.consumer_key,config.oauth.consumer_secret);
 
-console.log( myAuthHeader ); 
-console.log( twAuthHeader ); 
-console.log( basicAuthHeader ); 
+console.log( myAuthHeader );
+console.log( twAuthHeader );
+console.log( basicAuthHeader );
 
 request.post({
     "url": "https://api.twitter.com/oauth2/token",
