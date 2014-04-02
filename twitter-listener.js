@@ -13,8 +13,8 @@ var tweetStream = request.post({
   url: config.twitter.api.stream,
   oauth: config.oauth,
   form:{
-    // "track":"twitter"
-    locations: "-74,40,-73,41"
+    "track":"twitter"
+    //locations: "-74,40,-73,41"
   }
 })
 
