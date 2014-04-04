@@ -3,7 +3,7 @@ var colors = require('colors'),
     utils = require('./modules/utils')
 
 console.log( ('\n'+ Array(process.stdout.columns).join('=')  +'\n').rainbow.bold);
-console.log('This process is pid ' + process.pid);
+console.log('The process pid is ' + process.pid);
 console.log( ('\n'+ Array(process.stdout.columns).join('=')  +'\n').rainbow.bold);
 
 /* config */
