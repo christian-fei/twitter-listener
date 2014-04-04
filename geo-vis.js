@@ -1,11 +1,15 @@
 var tweetStream = require('./twitter-listener')
-  , app = require('express')()
+  , express = require('express')
+  , app = express()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server);
 
 io.set('log level', 1);
 
 server.listen(3000);
+
+app.use(express.static(__dirname + '/'));
+
 
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
@@ -19,7 +23,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 tweetStream.stream({
-  'track': 'twitter'
+  'track': 'renzi'
 }).on('data', function(data){
   io.sockets.emit('tweet',data.toString());
 })
