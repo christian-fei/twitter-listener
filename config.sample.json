@@ -2,13 +2,13 @@
   "oauth": {
     "consumer_key":"",
     "consumer_secret":"",
-    "access_token":"",
-    "access_token_secret":""
+    "token":"",
+    "token_secret":""
   },
   "twitter":{
     "api": {
       "search":"https://api.twitter.com/1.1/search/tweets.json",
-      
+
       "stream":"https://stream.twitter.com/1.1/statuses/filter.json",
       "stream_sample":"https://stream.twitter.com/1.1/statuses/sample.json"
     }
